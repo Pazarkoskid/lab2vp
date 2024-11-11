@@ -1,0 +1,49 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <title>Event Booking page - Welcome and choose an Event</title>
+  <style type="text/css">
+    body {
+      width: 800px;
+      margin: auto;
+    }
+  </style>
+</head>
+<body>
+<header>
+  <h1>Welcome to our Event Booking App</h1>
+</header>
+<main>
+  <form th:action="@{/servlet/event-list}" th:method="GET">
+
+    <label for="searchText">Name: </label>
+    <input id="searchText" type="text" name="searchText">
+    <label for="searchText">Score: </label>
+    <input id="searchScore" type="text" name="searchScore">
+    <input type="submit" value="filter">
+  </form>
+
+  <form th:action="@{/eventBooking}" th:method="POST">
+    <h2>Choose an event:</h2>
+
+    <div th:each="event : ${events}">
+      <input th:id="${event.getName()}" type="radio" th:value="${event.getName()}" name="eventName" >
+      <label th:for="${event.getName()}"  th:text="'Name:'+${event.getName}+', Description:'+ ${event.getDescription()}+', Rating:'+ ${event.getPopularityScore()}"></label>
+      <a th:href="@{/events/edit/{id}(eventId=${event.getId()})}">Edit</a>
+      <br>
+      <a th:href="@{/events/delete/{id}(eventId=${event.getId()})}">Delete</a>
+
+      <br>
+    </div>
+
+    <h2>Choose number of tickets:</h2>
+    <input type="number" name="numTickets" min="1" max="10"><br/>
+    <br/>
+
+    <input type="submit" value="Submit">
+  </form>
+  <br><br>
+  <a href="/events/add-form">Add New Event</a>
+</main>
+</body>
+</html>
